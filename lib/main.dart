@@ -4,8 +4,34 @@ import 'club_lime_theme.dart';
 import 'gyms.dart';
 import 'news.dart';
 import 'login.dart';
+import 'package:firebase/firebase.dart';
+import 'package:firebase/firestore.dart' as fs;
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
+
+void main() {
+ initializeApp(
+    apiKey: "AIzaSyAuLPgH10w4pSCioJSpSEGjRjZwYMogK8g",
+    authDomain: "club-lime-browser.firebaseapp.com",
+    databaseURL: "https://club-lime-browser.firebaseio.com",
+    projectId: "club-lime-browser",
+    storageBucket: "club-lime-browser.appspot.com");
+  
+  fs.Firestore store = firestore();
+  fs.CollectionReference ref = store.collection("links");
+
+  ref.onSnapshot.listen((querySnapshot) {
+    querySnapshot.docChanges().forEach((change) {
+      
+      print(change.doc.data());
+      // if (change.type == "added") {
+      //   // Do something with change.doc
+      // }     
+    });
+  });
+  
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -20,6 +46,8 @@ class _MyAppState extends State<MyApp> {
       var currentIndex = 0;
 
 
+      
+      
     return MaterialApp(
       title: 'Club Lime - Flutter Web',
       theme: clubLimeLight,
